@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pink Envelope</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fde9f1; /* very light pink */
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+      position: relative;
+    }
+
+    /* Pink falling petals behind envelope */
+    .petal-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .petal {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: #fbb4c4;
+      clip-path: polygon(
+        50% 0%, 
+        80% 18%, 
+        90% 50%, 
+        80% 82%, 
+        50% 100%, 
+        20% 82%, 
+        10% 50%, 
+        20% 18%
+      );
+      opacity: 0.7;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Envelope container */
+    .envelope {
+      width: 250px;
+      height: 160px;
+      background-color: #fcd1d9;
+      border-radius: 12px;
+      position: relative;
+      box-shadow:
+        inset 0 8px 15px #f9a9b8,
+        0 6px 14px rgba(0,0,0,0.05);
+      z-index: 10;
+    }
+
+    /* Envelope flap */
+    .flap {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 80px 125px 0 125px;
+      border-color: #f77ea3 transparent transparent transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 0 0 25px 25px;
+      box-shadow: inset 0 -10px 12px #ed668e;
+      z-index: 20;
+    }
+
+    /* Envelope sides */
+    .left-side,
+    .right-side {
+      position: absolute;
+      top: 80px;
+      width: 85px;
+      height: 80px;
+      border-radius: 0 0 20px 20px;
+      filter: drop-shadow(0 1px 0 #fbb4c4);
+      z-index: 15;
+    }
+
+    .left-side {
+      left: 0;
+      background: #f9a7b9;
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+      box-shadow: inset 10px 0 15px #f692ac;
+    }
+
+    .right-side {
+      right: 0;
+      background: #f9b2bf;
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      box-shadow: inset -10px 0 15px #f67e94;
+    }
+
+    /* Envelope bottom panel */
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 250px;
+      height: 80px;
+      background: #fbd5db;
+      clip-path: polygon(0 100%, 50% 40%, 100% 100%);
+      box-shadow: inset 0 -6px 10px #f7a3b6;
+      border-radius: 0 0 20px 20px;
+      z-index: 12;
+    }
+
+    /* Button at bottom center */
+    .heart-button {
+      background-color: #f77ea3;
+      border: none;
+      outline: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 7px 14px rgba(247, 126, 163, 0.5);
+      font-size: 24px;
+      color: #fff;
+      user-select: none;
+      transition: box-shadow 0.3s ease, transform 0.15s ease;
+      margin-bottom: 30px;
+    }
+     a {
+        text-decoration: none;
+    }
+    .heart-button:active {
+      box-shadow: 0 3px 7px rgba(247, 126, 163, 0.7);
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="petal-container" aria-hidden="true"></div>
+
+  <div class="envelope" role="img" aria-label="Pink envelope with a folded flap on top">
+    <div class="flap"></div>
+    <div class="left-side"></div>
+    <div class="right-side"></div>
+    <div class="bottom"></div>
+  </div>
+
+ <button class="heart-button" aria-label="Heart button to express love or send message"><a href="header.html">&#10084;&#65039;&#10024;</a></button>
+
+  <script>
+    // Generate pink falling petals dynamically
+
+    const container = document.querySelector('.petal-container');
+    const petalCount = 30;
+
+    function randomRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = randomRange(0, 100) + 'vw';
+      petal.style.animationDuration = randomRange(8, 15) + 's';
+      petal.style.animationDelay = randomRange(-15, 0) + 's';
+      petal.style.width = randomRange(15, 30) + 'px';
+      petal.style.height = petal.style.width;
+      petal.style.opacity = randomRange(0.4, 0.8);
+      container.appendChild(petal);
+    }
+  </script>
+
+</body>
+</html>
+
+
